@@ -20,15 +20,14 @@ import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { ChatCompletionMessageParam } from "openai/resources/chat";
 
 import { formSchema } from "./constants";
 
 const ConversationPage = () => {
   const router = useRouter();
   const proModal = useProModal();
-  const [messages, setMessages] = useState<
-    OpenAI.Chat.CreateChatCompletionRequestMessage[]
-  >([]);
+  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,7 +40,7 @@ const ConversationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: OpenAI.Chat.CreateChatCompletionRequestMessage = {
+      const userMessage: OpenAI.Chat.ChatCompletionMessageParam = {
         role: "user",
         content: values.prompt,
       };
@@ -129,7 +128,7 @@ const ConversationPage = () => {
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div
-                // key={message.content}
+                key={String(message.content)}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
                   message.role === "user"
@@ -138,7 +137,7 @@ const ConversationPage = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{message.content || ""}</p>
+                <p className="text-sm">{String(message.content)}</p>
               </div>
             ))}
           </div>
