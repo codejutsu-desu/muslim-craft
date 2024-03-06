@@ -1,19 +1,12 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { checkSubscription } from "@/lib/subscription";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const instructionMessage: ChatCompletionMessageParam = {
-  role: "system",
-  content:
-    "Answer questions as short and quickly as possible. You must do it under 75 tokens.",
-};
 
 export async function POST(req: Request) {
   try {
@@ -48,7 +41,7 @@ export async function POST(req: Request) {
       model: "gpt-3.5-turbo",
       max_tokens: 75,
       temperature: 0.5,
-      messages: [instructionMessage, ...messages],
+      messages,
     });
 
     if (!isPro) {

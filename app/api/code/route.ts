@@ -1,19 +1,12 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { checkSubscription } from "@/lib/subscription";
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const instructionMessage: ChatCompletionMessageParam = {
-  role: "system",
-  content:
-    "You are a code generator. You write it as short as possible. You only write the code, no explanations, no comments, and no imports. You must answer only in markdown code snippets. Complete in 75 tokens",
-};
 
 export async function POST(req: Request) {
   try {
@@ -47,7 +40,7 @@ export async function POST(req: Request) {
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [instructionMessage, ...messages],
+      messages,
       temperature: 0.2,
       max_tokens: 75,
     });
