@@ -50,7 +50,7 @@ const routes = [
     label: "Ask Fiqh question",
     icon: HelpCircle,
     color: "text-pink-700",
-    href: "/question",
+    href: "/questions-fiqh",
   },
   {
     label: "Get Naseehah",
