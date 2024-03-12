@@ -21,10 +21,14 @@ import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { ChatCompletionMessageParam } from "openai/resources/chat";
+import { useUser } from "@clerk/clerk-react";
 
 import { formSchema } from "./constants";
 
 const ConversationPage = () => {
+  const { user } = useUser();
+  console.log(user?.firstName);
+
   const router = useRouter();
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -98,7 +102,9 @@ const ConversationPage = () => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder="How do I calculate the radius of a circle?"
+                        placeholder={`Assalamu Alaikum brother ${
+                          user?.firstName || ""
+                        }`}
                         {...field}
                       />
                     </FormControl>
