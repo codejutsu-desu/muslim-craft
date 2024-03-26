@@ -18,7 +18,7 @@ export default function HomePage() {
           Let AI be your companion in your pursuit of ilm
         </h2>
         <p className="text-muted-foreground font-light text-sm md:text-lg text-center">
-          The Muslim AI- Never an alternative to your local scholar
+          The AI-Akhee- Never an alternative to your local scholar
         </p>
       </div>
       <div className="px-4 md:px-20 lg:px-32 space-y-4">
